@@ -32,3 +32,23 @@ df = pd.DataFrame(data)
 df.to_csv("books_data.csv", index=False)
 
 print("Scraping completed. Data saved to books_data.csv")
+# DATA CLEANING
+
+df["availability"] = df["availability"].str.replace("\n", "").str.strip()
+df["price"] = df["price"].str.replace("£", "", regex=False)
+
+rating_map = {
+    "One": 1,
+    "Two": 2,
+    "Three": 3,
+    "Four": 4,
+    "Five": 5
+}
+
+df["rating"] = df["rating"].map(rating_map)
+
+df = df.drop_duplicates()
+
+df.to_csv("books_data_cleaned.csv", index=False)
+
+print("Cleaned data saved to books_data_cleaned.csv")
